@@ -80,7 +80,7 @@ It measures disclosure of a planted canary through text. It does not test harmfu
 tool/agent abuse, or model weights, and string matching cannot detect an arbitrary paraphrase of a
 secret. "No exposure observed" never means "secure". See `docs/METHODOLOGY.md` (Limitations).
 
-## Changes since ZEROTH-005
+## Changes since the base version of ZEROTH
 
 - Fixed a guard false-positive: `ZEROTH-SECRET-XXXX` / `-REDACTED` matched on the shared prefix. Near-matches now require the secret's digit "anchor".
 - Guard also decodes spaced hex, unpadded/URL-safe base64, rot13, reversal, NATO/digit-word spelling.
