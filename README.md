@@ -74,6 +74,13 @@ tests/        82 unittest-style tests (pytest compatible)
 docs/         METHODOLOGY  LIVE_VALIDATION  ROADMAP  RELEASE_CHECKLIST  GARAK_COMPARISON
 ```
 
+## Project Report
+
+The complete project report documenting ZEROTH's architecture, attack methodology, defense mechanisms, evaluation, validation, and limitations is available below.
+
+📄 [View ZEROTH Project Report (PDF)](ZEROTH_Project_Report_v1.0.0rc1.pdf)
+
+
 ## What ZEROTH is *not*
 
 It measures disclosure of a planted canary through text. It does not test harmful-content generation,
