@@ -78,7 +78,7 @@ docs/         METHODOLOGY  LIVE_VALIDATION  ROADMAP  RELEASE_CHECKLIST  GARAK_CO
 
 The complete project report documenting ZEROTH's architecture, attack methodology, defense mechanisms, evaluation, validation, and limitations is available below.
 
-📄 [View ZEROTH Project Report (PDF)](ZEROTH_Project_Report_v1.0.0rc1.pdf)
+📄 [View ZEROTH Project Report (PDF)](ZEROTH_Report.pdf)
 
 
 ## What ZEROTH is *not*
