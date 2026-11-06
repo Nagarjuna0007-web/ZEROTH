@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+# raw evidence is large and regenerable; keep a curated sample in data/sample_results/
+data/results/
+!data/sample_results/
+*.sqlite

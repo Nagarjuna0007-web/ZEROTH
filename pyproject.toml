@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zeroth-redteam"
+version = "1.0.0rc1"
+description = "Local-LLM prompt-injection red-team and defense evaluation platform"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.30", "pandas>=2.0", "altair>=5.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+zeroth = "zeroth.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

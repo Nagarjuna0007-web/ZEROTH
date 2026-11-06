@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZEROTH Console</title><style>
+:root{color-scheme:dark;--bg:#05070d;--p:#0b1120;--l:#1b2a4a;--c:#00e5ff;--m:#ff2bd6;--g:#39ff88;--r:#ff3b5c;--t:#d7e3ff;--d:#6b7fa8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#10204a55,transparent),var(--bg);color:var(--t);font:14px/1.5 ui-monospace,Consolas,monospace;
+background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:36px 36px}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--l);position:sticky;top:0;background:#05070dcc;backdrop-filter:blur(8px);z-index:2}
+h1{margin:0;font-size:20px;letter-spacing:.35em;color:var(--c);text-shadow:0 0 14px var(--c)}h1 b{color:var(--m)}
+main{padding:20px 24px;display:grid;gap:18px;max-width:1300px;margin:auto}
+.card{background:linear-gradient(160deg,#0d1730,var(--p));border:1px solid var(--l);border-radius:10px;padding:16px;box-shadow:0 0 24px #00e5ff0d}
+h2{margin:0 0 10px;font-size:12px;letter-spacing:.25em;color:var(--d);text-transform:uppercase}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.k{border:1px solid var(--l);border-radius:8px;padding:12px}.k b{display:block;font-size:28px;color:var(--c);text-shadow:0 0 12px #00e5ff88}.k.bad b{color:var(--r);text-shadow:0 0 12px #ff3b5c88}.k span{color:var(--d);font-size:11px;letter-spacing:.15em}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}select,input,textarea,button{background:#0a1226;color:var(--t);border:1px solid var(--l);border-radius:6px;padding:7px 10px;font:inherit}
+button{cursor:pointer;border-color:var(--c);color:var(--c)}button:hover{background:#00e5ff18;box-shadow:0 0 12px #00e5ff55}button.alt{border-color:var(--m);color:var(--m)}
+.heat{display:grid;gap:3px;overflow-x:auto}.hc{padding:8px 4px;text-align:center;border-radius:4px;font-size:12px;min-width:74px}.hh{color:var(--d);font-size:10px;text-align:center;word-break:break-all}.hl{color:var(--c);font-size:12px;padding:8px 6px;white-space:nowrap}
+.bar{height:10px;border-radius:5px;background:#12203f;overflow:hidden;min-width:140px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c),var(--m))}
+table{border-collapse:collapse;width:100%;font-size:12px}td,th{padding:5px 8px;border-bottom:1px solid var(--l);text-align:left}th{color:var(--d);font-weight:400}tr.x{cursor:pointer}tr.x:hover{background:#00e5ff10}
+.dim{color:var(--d)}.tag{padding:1px 7px;border-radius:99px;border:1px solid var(--l);font-size:11px}.t-hi{color:var(--r);border-color:var(--r)}.t-ok{color:var(--g);border-color:var(--g)}
+pre{white-space:pre-wrap;background:#070c1a;border:1px solid var(--l);border-radius:6px;padding:10px;max-height:260px;overflow:auto;margin:6px 0}
+.warn{border-color:var(--m);color:var(--m);padding:8px 12px;border:1px solid;border-radius:6px}.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:900px){.two{grid-template-columns:1fr}}
+.pb{height:6px;background:#12203f;border-radius:3px;margin-top:8px}.pb i{display:block;height:100%;width:0;background:var(--g);transition:width .3s}
+</style></head><body>
+<header><h1>ZERO<b>TH</b> // CONSOLE</h1><div class="row"><span class="dim" id="ver"></span><select id="run"></select><select id="def"></select><button onclick="rep()">REPORT</button></div></header>
+<main>
+<div id="mock"></div><div class="kpis" id="kpis"></div>
+<div class="card"><h2>Exposure heatmap: model × probe (canary visible to user)</h2><div id="heat" class="heat"></div></div>
+<div class="two"><div class="card"><h2>Defense effectiveness</h2><div id="eff"></div></div><div class="card"><h2>Benign controls &amp; leak forms</h2><div id="ctl"></div></div></div>
+<div class="card"><h2>Evidence <label class="dim"><input type="checkbox" id="ex" checked onchange="ev()"> exposed only</label></h2><div class="two"><div style="max-height:340px;overflow:auto"><table id="evt"></table></div><div id="evv" class="dim">Select a row to inspect the conversation.</div></div></div>
+<div class="two"><div class="card"><h2>Guard playground</h2><textarea id="gt" rows="3" style="width:100%" placeholder="Paste a model response, e.g. ZEROTH-SECRET-7392 or a base64 string"></textarea><div class="row" style="margin-top:8px"><button onclick="gd()">SCAN</button><span id="gr"></span></div></div>
+<div class="card"><h2>Launch a run</h2><div class="row"><label><input type="checkbox" id="mk" checked> mock models</label><input id="mm" placeholder="models (comma, real runs)" size="22"><label>trials <input id="tr" type="number" value="3" min="1" max="50" style="width:60px"></label></div>
+<div class="row" style="margin-top:8px"><select id="lp" multiple size="4"></select><select id="ld" multiple size="4"></select></div><div class="row" style="margin-top:8px"><button class="alt" onclick="launch()">START</button><span id="js" class="dim"></span></div><div class="pb"><i id="pb"></i></div></div></div>
+</main><script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),P=x=>x==null?'-':(x*100).toFixed(1)+'%';
+const api=(u,o)=>fetch(u,o).then(r=>r.json());let first=true;
+async function init(){const o=await api('/api/options');$('#lp').innerHTML=o.probes.map(p=>`<option ${p=='all'?'selected':''}>${p}</option>`).join('');$('#ld').innerHTML=o.defenses.map(p=>`<option ${['none','output_guard','layered'].includes(p)?'selected':''}>${p}</option>`).join('');await runs()}
+async function runs(){const r=await api('/api/runs');$('#run').innerHTML=r.map(x=>`<option>${esc(x)}</option>`).join('');if(r.length)load();else $('#kpis').innerHTML='<p class=dim>No runs yet. Launch one below.</p>'}
+async function load(){const d=await api(`/api/run/${$('#run').value}/summary?defense=${first?'':encodeURIComponent($('#def').value)}`);first=false;
+$('#ver').textContent='v'+(d.meta.zeroth_version||'');$('#def').innerHTML=d.defenses.map(x=>`<option ${x==d.selected?'selected':''}>${esc(x)}</option>`).join('');
+$('#mock').innerHTML=d.mock?'<div class="warn">MOCK DATA: synthetic models, not real model behaviour.</div>':'';
+const k=d.kpi;$('#kpis').innerHTML=[['ATTACK RUNS',k.runs,''],['MODEL LEAKS',k.leaks,k.leaks?'bad':''],['EXPOSED TO USER',k.exposed,k.exposed?'bad':''],['GUARD MISSES',k.misses,k.misses?'bad':''],['ERRORS',k.errors,k.errors?'bad':'']].map(a=>`<div class="k ${a[2]}"><b>${a[1]}</b><span>${a[0]}</span></div>`).join('');
+const ms=[...new Set(d.heat.map(h=>h.model))],ps=[...new Set(d.heat.map(h=>h.probe))];$('#heat').style.gridTemplateColumns=`auto repeat(${ps.length},1fr)`;
+$('#heat').innerHTML='<div></div>'+ps.map(p=>`<div class="hh">${esc(p)}</div>`).join('')+ms.map(m=>`<div class="hl">${esc(m)}</div>`+ps.map(p=>{const h=d.heat.find(x=>x.model==m&&x.probe==p);if(!h)return'<div></div>';const hue=120-120*h.exposure_rate;return`<div class="hc" title="${h.exposures}/${h.n}  CI ${P(h.ci_low)}-${P(h.ci_high)}" style="background:hsl(${hue} 80% 22%);box-shadow:inset 0 0 12px hsl(${hue} 90% 50%/.5)">${Math.round(h.exposure_rate*100)}%</div>`}).join('')).join('');
+$('#eff').innerHTML='<table><tr><th>model</th><th>defense</th><th>exposure</th><th></th><th>false-block</th></tr>'+d.effectiveness.map(e=>`<tr><td>${esc(e.model)}</td><td>${esc(e.defense)}</td><td>${P(e.exposure_rate)}</td><td><div class="bar"><i style="width:${e.exposure_rate*100}%"></i></div></td><td>${P(e.false_block_rate)}</td></tr>`).join('')+'</table>';
+$('#ctl').innerHTML='<table><tr><th>model</th><th>defense</th><th>runs</th><th>leak</th><th>false-block</th></tr>'+d.controls.map(c=>`<tr><td>${esc(c.model)}</td><td>${esc(c.defense)}</td><td>${c.n}</td><td>${P(c.leak_rate)}</td><td>${P(c.false_block_rate)}</td></tr>`).join('')+'</table><p class="dim">Forms: '+Object.entries(d.levels).map(([a,b])=>`<span class="tag">${esc(a)} ${b}</span>`).join(' ')+'</p>';ev()}
+let rec=[];async function ev(){rec=await api(`/api/run/${$('#run').value}/records?limit=150&defense=${encodeURIComponent($('#def').value)}${$('#ex').checked?'&exposed=1':''}`);
+$('#evt').innerHTML='<tr><th>model</th><th>case</th><th>t</th><th>level</th></tr>'+rec.map((r,i)=>`<tr class="x" onclick="sh(${i})"><td>${esc(r.model)}</td><td>${esc(r.case_id)}</td><td>${r.trial}</td><td><span class="tag ${r.exposed?'t-hi':'t-ok'}">${esc(r.leak_level)}</span></td></tr>`).join('')}
+function sh(i){const r=rec[i];$('#evv').innerHTML=r.turns.map((t,n)=>`<div class="dim">TURN ${n+1} · raw ${esc(t.raw_detection.level)} · shown ${esc(t.display_detection.level)} ${t.input_blocked?'· INPUT BLOCKED':''}${t.output_blocked?'· OUTPUT BLOCKED':''}</div><pre>${esc(t.user)}</pre><pre>${esc(t.display_response)}</pre>`).join('')}
+async function gd(){const r=await api('/api/guard',{method:'POST',body:JSON.stringify({text:$('#gt').value})});$('#gr').innerHTML=`<span class="tag ${r.blocked?'t-hi':'t-ok'}">${r.blocked?'BLOCKED':'ALLOWED'}</span> level=${esc(r.level)} score=${r.score} method=${esc(r.method)}`}
+const sel=id=>[...$(id).selectedOptions].map(o=>o.value);
+async function launch(){const mk=$('#mk').checked,mm=$('#mm').value.split(',').map(s=>s.trim()).filter(Boolean);const r=await api('/api/launch',{method:'POST',body:JSON.stringify({mock:mk,models:mk?null:mm,probes:sel('#lp'),defenses:sel('#ld'),trials:+$('#tr').value})});if(r.error){$('#js').textContent=r.error;return}poll()}
+async function poll(){const j=await api('/api/job');$('#pb').style.width=(j.total?100*j.done/j.total:0)+'%';$('#js').textContent=j.state+' '+j.done+'/'+j.total+(j.error?' '+j.error:'');if(j.state=='running')setTimeout(poll,1000);else if(j.state=='done'){first=true;await runs();$('#run').value=j.run;load()}}
+function rep(){window.open(`/api/run/${$('#run').value}/report`)}
+$('#run').onchange=()=>{first=true;load()};$('#def').onchange=load;init();
+</script></body></html>
